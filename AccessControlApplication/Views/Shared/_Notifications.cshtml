@@ -1,0 +1,42 @@
+﻿@if(TempData["Successfull"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript"> toastr.success("@TempData["Successfull"]");</script>
+}
+@if(TempData["Unsuccessfull"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript"> toastr.warning("@TempData["Unsuccessfull"]");</script>
+}
+@if(TempData["Successfull Login"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.success("@TempData["Successfull Login"]")</script>
+}
+@if (TempData["Unsuccessfull Login"]!=null) 
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript"> toastr.warning("@TempData["Unsuccessfull Login"]")</script>
+}
+@if (TempData["Successfull Deletion"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.success("@TempData["Successfull Deletion"]")</script>
+}
+@if (TempData["Unsuccessfull Deletion"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.warning("@TempData["Unsuccessfull Deletion"]")</script>
+}
+@if (TempData["Test"] != null)
+{
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script type="text/javascript">toastr.warning("@TempData["Test"]")</script>
+}

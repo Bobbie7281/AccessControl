@@ -1,0 +1,42 @@
+﻿@model Register
+<head>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<partial name="_Notifications" />
+<form method="post">
+    <div class="border p-3 mt-5">
+        <div class="row pb-2">
+            <h2 class="text-primary">
+                Log In Form
+            </h2>
+            <hr />
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Id" class="p-0"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="IdCardNum" class="p-0"></label>
+            <input asp-for="IdCardNum" class="form-control" />
+            <span asp-validation-for="IdCardNum" class="text-danger"></span>
+        </div>
+       
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">LogIn</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
