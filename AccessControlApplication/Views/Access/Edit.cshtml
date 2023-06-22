@@ -1,0 +1,83 @@
+﻿@model Register
+@{
+    Register obj = new Register();
+}
+
+<head>
+    @*<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+</head>
+<partial name="_Notifications" />
+<form method="post" action="/Access/Download">
+    <input asp-for="@obj.Id" hidden />
+    <div class="border p-3 mt-5">
+        <div class="row pb-2">
+            <h2 class="text-primary">
+                Edit User Details
+            </h2>
+            <hr />
+        </div>
+
+       <div class="mb-1 row p-4">
+          <div class="col-6 col-md-1">
+              <label for="User Input" class="p-0">Enter User ID: </label>
+          </div>
+          <div class="col-6 col-md-2"> 
+              <input type="text" id="User Input" name="Id" class="form-control"/>
+              <span asp-validation-for="@obj.Id" class="text-danger"></span>
+          </div>
+          <div class="col-6 col-md-3">
+                <button type"submit" class="btn btn-primary form-control"><i class="bi bi-download"></i> Download Data</button>
+                @*<a asp-controller="Access" asp-action="Download" asp-route-id="@obj.Id" class="btn btn-primary form-control"><i class="bi bi-download"> Download Data</i></a>*@
+          </div>
+       </div>
+       </div>
+</form>
+<form method="post" action="/Access/Edit">
+    <input asp-for="@obj.Id" hidden />
+
+        <div class="mb-1 row p-4">
+            <label asp-for="@obj.IdCardNum" class="p-0"></label>
+            <input type="text" value="@Model.IdCardNum" class="form-control" />
+            @*<input type="text" id="IdCardNum" name="Id" class="form-control" />
+        <span asp-validation-for="@obj.IdCardNum" class="text-danger"></span>*@
+        </div>
+        <div class="mb-1 row p-4">
+            <label asp-for="@obj.FullName" class="p-0"></label>
+            <input type="text" class="form-control" />
+            <span asp-validation-for="@obj.FullName" class="text-danger"></span>
+        </div>
+        <div class="mb-1 row p-4">
+            <label asp-for="@obj.Address" class="p-0"></label>
+            <input type="text" class="form-control" />
+            <span asp-validation-for="@obj.Address" class="text-danger"></span>
+        </div>
+        <div class="mb-1 row p-4">
+            <label asp-for="@obj.ContactNumber" class="p-0"></label>
+            <input type="text" class="form-control" />
+            <span asp-validation-for="@obj.ContactNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-1 row p-4">
+            <label asp-for="@obj.EmailAddress" class="p-0"></label>
+            <input type="text" class="form-control" />
+            <span asp-validation-for="@obj.EmailAddress" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            
+            <div class="col-6 col-md-2">
+                <button type"submit" class="btn btn-outline-secondary border form-control"><i class="bi bi-pencil-square"></i> Edit</button>
+            </div>
+    
+            <div class="col-6 col-md-2">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary border form-control"><i class="bi bi-house-door-fill"></i> Back to Home</a>
+            </div>
+        </div>
+</form>
+@section Scripts
+    {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

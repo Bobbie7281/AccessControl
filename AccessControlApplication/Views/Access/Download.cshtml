@@ -1,0 +1,35 @@
+﻿@model Register
+<h1 class="text-primary p-3">Edit Details</h1>
+<body>
+    <table>
+        
+        <thead>
+            @{
+                string text = "Test";
+                //var obj = Model.
+
+            <tr>
+                <th class="border p-3 mt-5">Id Card Number:</th>
+                <td> <input class="border p-3 form-control" type="text" value="@Model.IdCardNum"></td>
+            </tr>
+            <tr>
+                <th class="border p-3 mt-5">Full Name:</th>
+                <td><input class="border p-3 form-control" type="text" value="@Model.FullName"></td>
+            </tr>
+            <tr>
+                <th class="border p-3 mt-5">Address:</th>
+                <td> <input class="border p-3 form-control" value="@Model.Address" /></td>
+            </tr>
+            <tr>
+                <th class="border p-3 mt-5">Contact Number:</th>
+                <td> <input class="border p-3 form-control" value="@Model.ContactNumber" /></td>
+            </tr>
+            <tr>
+                <th class="border p-3 mt-5">Email Address:</th>
+                <td> <input class="border p-3 form-control" value="@Model.EmailAddress" /></td>
+            </tr>
+            }
+        </thead>
+
+    </table>
+</body>
