@@ -36,9 +36,15 @@ namespace AccessControlApplication.Controllers
         }
         public IActionResult Edit()
         {
-            List<Register> usersList = new();
-            //return View(usersList);
-            return View();
+            Register obj = new();
+
+            obj.IdCardNum = "";
+            obj.FullName = "";
+            obj.Address = "";
+            obj.ContactNumber = "";
+            obj.EmailAddress = "";
+
+            return View(obj);
         }
 
         public IActionResult Delete()
