@@ -1,7 +1,4 @@
 ﻿@model Register
-@{
-    //Register obj = new Register();
-}
 
 <head>
     @*<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -10,7 +7,7 @@
 </head>
 <partial name="_Notifications" />
 <form method="post" action="/Access/Download">
-    <input asp-for="@Model.Id" hidden />
+    @*<input asp-for="@Model.Id" hidden />*@
     <div class="border p-3 mt-5">
         <div class="row pb-2">
             <h2 class="text-primary">

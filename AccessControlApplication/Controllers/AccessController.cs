@@ -27,7 +27,8 @@ namespace AccessControlApplication.Controllers
         }
         [HttpPost]
         public IActionResult Download()
-        { 
+        {
+            string ?test = Request.Form["Id"];
             int userId= int.Parse(Request.Form["Id"].ToString());
 
             Register? getData = _db.UserDetails.Find(userId);
