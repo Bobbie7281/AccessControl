@@ -40,3 +40,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript">toastr.warning("@TempData["Invalid Input"]")</script>
 }
+@if (TempData["Non Existing Id"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.warning("@TempData["Non Existing Id"]")</script>
+}

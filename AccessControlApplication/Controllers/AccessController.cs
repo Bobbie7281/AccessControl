@@ -41,7 +41,12 @@ namespace AccessControlApplication.Controllers
                 TempData["Invalid Input"]="User Id is not valid. Only numbers are accepted!!";
             }
 
-            return View("Edit", getData);//to create another view for dowloaded data. from this view details can be edited and saved in the database.
+            if(getData==null)
+            {
+                TempData["Non Existing Id"] = "User Id not found in the database!!";
+                return RedirectToAction("Edit");
+            }
+            return View("Edit", getData);
         }
         public IActionResult Edit()
         {
