@@ -28,12 +28,20 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult Download()
         {
-            string ?test = Request.Form["Id"];
-            int userId= int.Parse(Request.Form["Id"].ToString());
+            int userId = 0;
+            Register? getData = new();
 
-            Register? getData = _db.UserDetails.Find(userId);
+            try
+            {
+                userId = int.Parse(Request.Form["Id"].ToString());
+                getData = _db.UserDetails.Find(userId);
+            }
+            catch 
+            {
+                TempData["Invalid Input"]="User Id is not valid. Only numbers are accepted!!";
+            }
 
-            return View("Edit",getData);//to create another view for dowloaded data. from this view details can be edited and saved in the database.
+            return View("Edit", getData);//to create another view for dowloaded data. from this view details can be edited and saved in the database.
         }
         public IActionResult Edit()
         {
