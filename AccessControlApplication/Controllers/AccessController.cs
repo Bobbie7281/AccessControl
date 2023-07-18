@@ -1,6 +1,7 @@
 ﻿using AccessControlApplication.Data;
 using AccessControlApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccessControlApplication.Controllers
 {
@@ -29,47 +30,66 @@ namespace AccessControlApplication.Controllers
         public IActionResult Download()
         {
             int userId = 0;
+            ButtonControls? downloadState = new();
             Register? getData = new();
-
+            CombinedClasses? combinedData = new();
+            
             try
             {
                 userId = int.Parse(Request.Form["Id"].ToString());
                 getData = _db.UserDetails.Find(userId);
+                downloadState.Download = true;
+
+                combinedData.RegisterUser = getData;
+                combinedData.ButtonSync = downloadState;
+                
             }
             catch 
             {
                 TempData["Invalid Input"]="User Id is not valid. Only numbers are accepted!!";
+                downloadState.Download = false;
+                return RedirectToAction("Edit");
             }
 
             if(getData==null)
             {
                 TempData["Non Existing Id"] = "User Id not found in the database!!";
+                downloadState.Download = false;
                 return RedirectToAction("Edit");
             }
-            return View("Edit", getData);
+            downloadState.Download = true;
+            return View("Edit", combinedData);
         }
         public IActionResult Edit()
         {
-            Register obj = new();
+            CombinedClasses details = new();
+            Register initialInfo = new Register()
+            {
+                IdCardNum = "",
+                FullName = "",
+                Address = "",
+                ContactNumber = "",
+                EmailAddress = ""
+            };
+            ButtonControls initialSetUp = new()
+            {
+                Download = false
+            };
 
-            obj.IdCardNum = "";
-            obj.FullName = "";
-            obj.Address = "";
-            obj.ContactNumber = "";
-            obj.EmailAddress = "";
+            details.RegisterUser = initialInfo;
+            details.ButtonSync = initialSetUp;
 
-            return View(obj);
+            return View(details);
         }
 
+        [HttpPost]
+        public IActionResult EditInfo()
+        {
+            return RedirectToAction("Index","Home");
+        }
         public IActionResult Delete()
         {
             return View();
-        }
-
-        [HttpPost, ActionName("Edit Details")]
-        public IActionResult Edit(Register obj)
-        {
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost, ActionName("Delete User")]
