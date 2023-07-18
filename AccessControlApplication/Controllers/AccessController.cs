@@ -8,7 +8,6 @@ namespace AccessControlApplication.Controllers
     public class AccessController : Controller
     {
         public ApplicationDbContext _db;
-        Register info = new();
         public AccessController(ApplicationDbContext db)
         {
             _db = db;
@@ -29,9 +28,9 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult Download()
         {
-            int userId = 0;
+            int userId;
             ButtonControls? downloadState = new();
-            Register? getData = new();
+            Register? getData;
             CombinedClasses? combinedData = new();
             
             try
@@ -63,7 +62,7 @@ namespace AccessControlApplication.Controllers
         public IActionResult Edit()
         {
             CombinedClasses details = new();
-            Register initialInfo = new Register()
+            Register initialInfo = new()
             {
                 IdCardNum = "",
                 FullName = "",
