@@ -1,4 +1,4 @@
-﻿@model Register
+﻿@model CombinedClasses
 <head>
     @*<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -6,7 +6,7 @@
 </head>
 <partial name="_Notifications" />
 <form method="post" action="/Access/Delete User">
-    <input asp-for="Id" hidden/>
+    <input asp-for="@Model.RegisterUser!.Id" hidden />
     <div class="border p-3 mt-5">
         <div class="row pb-2">
             <h2 class="text-primary">
@@ -15,9 +15,9 @@
             <hr />
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="Id" class="p-0"></label>
+            <label asp-for="@Model.RegisterUser!.Id" class="p-0"></label>
             <input type="text" id="Id" name="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
+            <span asp-validation-for="@Model.RegisterUser!.Id" class="text-danger"></span>
         </div>
 
         <div Class="row">

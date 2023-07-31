@@ -5,7 +5,6 @@ namespace AccessControlApplication.Models
 {
     public class Register
     {
-        
         [Key]
         [Required]
         [DisplayName("User Id")]

@@ -4,5 +4,6 @@
     {
         public Register? RegisterUser { get; set; }
         public ButtonControls? ButtonSync { get; set; }
+        public LoggedUser ? User { get; set; }
     }
 }
