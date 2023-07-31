@@ -1,4 +1,4 @@
-﻿@model Register
+﻿@model CombinedClasses
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -14,29 +14,29 @@
             <hr/>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="IdCardNum" class="p-0"></label>
-            <input asp-for="IdCardNum" class="form-control" />
-            <span asp-validation-for="IdCardNum" class="text-danger"></span>
+            <label asp-for="@Model.RegisterUser!.IdCardNum" class="p-0"></label>
+            <input asp-for="@Model.RegisterUser!.IdCardNum" class="form-control" />
+            <span asp-validation-for="@Model.RegisterUser!.IdCardNum" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="FullName" class="p-0"></label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
+            <label asp-for="@Model.RegisterUser!.FullName" class="p-0"></label>
+            <input asp-for="@Model.RegisterUser!.FullName" class="form-control" />
+            <span asp-validation-for="@Model.RegisterUser!.FullName" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="Address" class="p-0"></label>
-            <input asp-for="Address" class="form-control" />
-            <span asp-validation-for="Address" class="text-danger"></span>
+            <label asp-for="@Model.RegisterUser!.Address" class="p-0"></label>
+            <input asp-for="@Model.RegisterUser!.Address" class="form-control" />
+            <span asp-validation-for="@Model.RegisterUser!.Address" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="ContactNumber" class="p-0"></label>
-            <input asp-for="ContactNumber" class="form-control" />
-            <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            <label asp-for="@Model.RegisterUser!.ContactNumber" class="p-0"></label>
+            <input asp-for="@Model.RegisterUser!.ContactNumber" class="form-control" />
+            <span asp-validation-for="@Model.RegisterUser!.ContactNumber" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="EmailAddress" class="p-0"></label>
-            <input asp-for="EmailAddress" class="form-control" />
-            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            <label asp-for="@Model.RegisterUser!.EmailAddress" class="p-0"></label>
+            <input asp-for="@Model.RegisterUser!.EmailAddress" class="form-control" />
+            <span asp-validation-for="@Model.RegisterUser!.EmailAddress" class="text-danger"></span>
         </div>
         <div class="row">
             <div class="col-6 col-md-3">
