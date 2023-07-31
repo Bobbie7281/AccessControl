@@ -27,41 +27,39 @@
           </div>
           <div class="col-6 col-md-3">
                 <button type"submit" class="btn btn-outline-info btn-primary form-control"><i class="bi bi-download"></i> Download Data</button>
-                @*<a asp-controller="Access" asp-action="Download" asp-route-id="@obj.Id" class="btn btn-primary form-control"><i class="bi bi-download"> Download Data</i></a>*@
           </div>
        </div>
        </div>
 </form>
-<form method="post" action="/Access/Edit">
+<form method="post" action="/Access/EditInfo">
     <input asp-for="@Model.RegisterUser!.Id" hidden />
 
         <div class="mb-1 row p-4">
         <label asp-for="@Model.RegisterUser!.IdCardNum" class="p-0"></label>
-        <input type="text" value="@Model.RegisterUser!.IdCardNum" class="form-control" />
+        <input asp-for="RegisterUser!.IdCardNum" value="@Model.RegisterUser!.IdCardNum" class="form-control" />
         </div>
 
         <div class="mb-1 row p-4">
         <label asp-for="@Model.RegisterUser.FullName" class="p-0"></label>
-        <input type="text" value="@Model.RegisterUser.FullName" class="form-control" />
+        <input asp-for="RegisterUser!.FullName" value="@Model.RegisterUser.FullName" class="form-control" />
        
         </div>
         <div class="mb-1 row p-4">
         <label asp-for="@Model.RegisterUser.Address" class="p-0"></label>
-        <input type="text" value="@Model.RegisterUser.Address" class="form-control" />
+        <input asp-for="RegisterUser!.Address" value="@Model.RegisterUser.Address" class="form-control" />
         
         </div>
         <div class="mb-1 row p-4">
         <label asp-for="@Model.RegisterUser.ContactNumber" class="p-0"></label>
-        <input type="text" value="@Model.RegisterUser.ContactNumber" class="form-control" />
+        <input asp-for="RegisterUser!.ContactNumber" value="@Model.RegisterUser.ContactNumber" class="form-control" />
         
         </div>
         <div class="mb-1 row p-4">
         <label asp-for="@Model.RegisterUser.EmailAddress" class="p-0"></label>
-        <input type="text" value="@Model.RegisterUser.EmailAddress" class="form-control" />
+        <input asp-for="RegisterUser!.EmailAddress" value="@Model.RegisterUser.EmailAddress" class="form-control" />
        
         </div>
-</form>
-<form method="post" action="/Access/EditInfo">
+
         <div class="row">
         @if (Model.ButtonSync!.Download)
         {
