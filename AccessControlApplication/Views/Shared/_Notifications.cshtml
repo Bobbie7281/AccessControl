@@ -46,3 +46,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript">toastr.warning("@TempData["Non Existing Id"]")</script>
 }
+@if (TempData["Edit Successfull"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.success("@TempData["Edit Successfull"]")</script>
+}
+@if (TempData["Edit Unsuccessfull"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">toastr.warning("@TempData["Edit Unsuccessfull"]")</script>
+}
