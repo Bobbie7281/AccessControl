@@ -11,13 +11,22 @@
         <p>Future First Bank. The Only Bank you can trust.</p>
     </div>
     <div class="row align-self-center pb-sm-3">
-        <button type="submit" 
-            class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Home" asp-action="Register">Register</button>
+        <button type="submit"
+            class="btn btn-outline-secondary text-dark p-lg-3 form-control" style="" asp-controller="Home" asp-action="Register">Register</button>
     </div>
-    <div class="row align-self-center pb-sm-3">
-        <button type="submit" class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Home" asp-action="LogIn">LogIn</button>
-    </div>
-   @* @if (Model.User!.CurrentUser == 1)
+    @if (Model.User!.CurrentUser == 0)
+    {
+        <div class="row align-self-center pb-sm-3">
+            <button type="submit" class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Home" asp-action="LogIn">LogIn <i class="bi bi-door-open-fill"></i></button>
+        </div>
+    }
+    else
+    {
+        <div class="row align-self-center pb-sm-3">
+            <button type="submit" class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Home" asp-action="LogOff">Log Off <i class="bi bi-door-closed-fill"></i></button>
+        </div>
+    }
+    @* @if (Model.User!.CurrentUser == 1)
     {
         <div class="row align-self-center pb-sm-3">
             <button type="submit" class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Access" asp-action="ManageDatabase">Manage Database</button>
