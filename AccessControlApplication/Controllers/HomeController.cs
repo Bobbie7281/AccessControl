@@ -40,6 +40,11 @@ namespace AccessControlApplication.Controllers
         {
             return RedirectToAction("LogIn", "Access");
         }
+        public IActionResult LogOff()
+        {
+            noUser = true;
+            return RedirectToAction("Index", "Home");
+        }
         [HttpPost]
         public IActionResult Index(CombinedClasses obj)
         {
