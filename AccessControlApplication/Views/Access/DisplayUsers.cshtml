@@ -1,0 +1,86 @@
+﻿@model CombinedClasses
+
+<h1 class="text-primary pb-sm-3">All Users</h1>
+<partial name="_Notifications" />
+<div class="btn-group pb-sm-3" role="group" aria-label="Button group with nested dropdown">
+    <button type="button" class="btn btn-info">Search Criteria</button>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+            <a class="dropdown-item" href="SearchById">By ID</a>
+            <a class="dropdown-item" href="SearchByName">By Name</a>
+            <a class="dropdown-item" href="SearchByIdcard">By Id Card Number</a>
+            <a class="dropdown-item" href="GetAllData">Get All Data</a>
+        </div>
+    </div>
+    
+</div>
+@if (@Model.Category!.Search == "Id")
+{
+    <form method="post" action="/Access/GetInfoById">
+        <input type="text" id="User Input" name="Id" placeholder="Enter User Id"/>
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
+        
+    </form>
+}
+else if(@Model.Category!.Search =="Name")
+{
+    <form method="post" action="/Access/GetInfoByName">
+        <input type="text" id="User Input" name="Name" placeholder="Enter Full Name"/>
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
+    </form>
+}
+else if (@Model.Category!.Search == "Idcard")
+{
+    <form method="post" action="/Access/GetInfoByIdcard">
+        <input type="text" id="User Input" name="Idcard"placeholder="Enter ID Card Number"/>
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
+    </form>
+}
+else if (@Model.Category!.Search == "AllInfo")
+{
+    <form method="post" action="/Access/GetAllInfo">
+        <input type="text" id="User Input" name="AllInfo" />
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
+    </form>
+}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Id Card Number</th>
+            <th scope="col">Address</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Email Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (@Model.RegisteredUsers!.Count > 0)
+        {
+            @for (int i = 0; i < Model.RegisteredUsers!.Count; i++)
+            {
+                <tr class="table-info">
+                    <td>
+                        @Model.RegisteredUsers[i].Id
+                    </td>
+                    <td>
+                        @Model.RegisteredUsers[i].FullName
+                    </td>
+                    <td>
+                        @Model.RegisteredUsers[i].IdCardNum
+                    </td>
+                    <td>
+                        @Model.RegisteredUsers[i].Address
+                    </td>
+                    <td>
+                        @Model.RegisteredUsers[i].ContactNumber
+                    </td>
+                    <td>
+                        @Model.RegisteredUsers[i].EmailAddress
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
