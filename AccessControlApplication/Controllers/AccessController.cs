@@ -7,6 +7,13 @@ namespace AccessControlApplication.Controllers
     public class AccessController : Controller
     {
         public ApplicationDbContext _db;
+        SearchByCategory category = new();
+
+        public static int userId = 0;
+        public static string name = "";
+        public static string idCard = "";
+        public static string allInfo = "";
+
         static int currentUser;
         public AccessController(ApplicationDbContext db)
         {
@@ -23,7 +30,7 @@ namespace AccessControlApplication.Controllers
             CombinedClasses currentUser = new();
             LoggedUser loggedUser = new();
 
-            currentUser.User= loggedUser;
+            currentUser.User = loggedUser;
 
             return View(currentUser);
         }
@@ -43,42 +50,174 @@ namespace AccessControlApplication.Controllers
 
             return View(obj);
         }
-        [HttpPost]
-        public IActionResult Download()
-        {
-            int userId;
-            ButtonControls? downloadState = new();
-            CombinedClasses? combinedData = new();
-            LoggedUser? user = new();
-            Register? getData;
 
+        public IActionResult DisplayUsers()
+        {
+            CombinedClasses obj = new();
+            Register? users = new();
+            List<Register> allData = new();
+            LoggedUser user = new();
+
+            if (category.GetAllData == true)
+            {
+                allData = _db.UserDetails.ToList();
+            }
+            else
+            {
+                if (userId != 0)
+                { 
+                    users = _db.UserDetails.Find(userId);
+                    userId = 0;
+                    category.GetAllData = true;
+                    category.Search = "";
+                }
+                else if (name != "")
+                {
+                    users = _db.UserDetails.FirstOrDefault(n => n.FullName == name);
+                    name = "";
+                    category.GetAllData = true;
+                    category.Search = "";
+                }
+                else if (idCard != "")
+                {
+                    users = _db.UserDetails.FirstOrDefault(id => id.IdCardNum == idCard);
+                    idCard = "";
+                    category.GetAllData = true;
+                    category.Search = "";
+                }
+                if (users != null)
+                {
+                    allData.Add(users);
+                }
+                else
+                {
+                    TempData["Unsuccessfull"] = "No Data found in the database!!";
+                }
+            }
+
+            obj.Category = category;
+            obj.RegisteredUsers = allData;
+            obj.User = user;
+            return View(obj);
+        }
+        public IActionResult SearchById()
+        {
+            CombinedClasses setCategory = new();
+
+            category.Search = "Id";
+            setCategory.Category = category;
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        public IActionResult SearchByName()
+        {
+            CombinedClasses setCategory = new();
+
+            category.Search = "Name";
+            setCategory.Category = category;
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        public IActionResult SearchByIdcard()
+        {
+            CombinedClasses setCategory = new();
+
+            category.Search = "Idcard";
+            setCategory.Category = category;
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        public IActionResult GetAllData()
+        {
+            CombinedClasses setCategory = new();
+
+            category.Search = "AllData";
+            setCategory.Category = category;
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+
+        [HttpPost]
+        public IActionResult GetInfoById()
+        {
+            CombinedClasses? userData = new();
+            category.GetAllData = false;
 
             try
             {
-                userId = int.Parse(Request.Form["Id"].ToString());
-                getData = _db.UserDetails.Find(userId);
-                currentUser = userId;
-                combinedData.RegisterUser = getData;
-                combinedData.ButtonSync = downloadState;
-                combinedData.User = user;
-
+                if (Request.Form["Id"] == "")
+                {
+                    category.GetAllData = true;
+                    TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid user Id.";
+                }
+                else
+                {
+                    userId = int.Parse(Request.Form["Id"].ToString());
+                }
             }
             catch
             {
-                TempData["Invalid Input"] = "User Id is not valid. Only numbers are accepted!!";
-                downloadState.Download = false;
-                return RedirectToAction("Edit");
+                category.GetAllData = true;
+                TempData["Unsuccessfull"] = "\"" + Request.Form["Id"].ToString() + "\"" + " is not valid User Id. The User Id should contain only numbers.";
             }
 
-            if (getData == null)
-            {
-                TempData["Non Existing Id"] = "User Id not found in the database!!";
-                downloadState.Download = false;
-                return RedirectToAction("Edit");
-            }
-            downloadState.Download = true;
-            return View("Edit", combinedData);
+            return RedirectToAction("DisplayUsers", "Access");
         }
+        [HttpPost]
+        public IActionResult GetInfoByName()
+        {
+            CombinedClasses? userData = new();
+            category.GetAllData = false;
+
+            try
+            {
+                if (Request.Form["Name"] == "")
+                {
+                    category.GetAllData = true;
+                    TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid Name.";
+                }
+                else
+                {
+                    name = Request.Form["Name"].ToString();
+                }
+            }
+            catch { }
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        [HttpPost]
+        public IActionResult GetInfoByIdcard()
+        {
+            CombinedClasses? userData = new();
+            category.GetAllData = false;
+
+            try
+            {
+                if (Request.Form["IdCard"] == "")
+                {
+                    category.GetAllData = true;
+                    TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid Id Card number.";
+                }
+                else
+                {
+                    idCard = Request.Form["IdCard"].ToString();
+                }
+            }
+            catch { }
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        [HttpPost]
+        public IActionResult GetAllInfo()
+        {
+            CombinedClasses? userData = new();
+            category.GetAllData = false;
+
+            allInfo = Request.Form["AllInfo"].ToString();
+
+            return RedirectToAction("DisplayUsers", "Access");
+        }
+        [HttpPost]
         public IActionResult Edit()
         {
             CombinedClasses details = new();
@@ -128,6 +267,41 @@ namespace AccessControlApplication.Controllers
             }
 
             return RedirectToAction("Edit", "Access");
+        }
+
+        public IActionResult Download()
+        {
+            int userId;
+            ButtonControls? downloadState = new();
+            CombinedClasses? combinedData = new();
+            LoggedUser? user = new();
+            Register? getData;
+
+            try
+            {
+                userId = int.Parse(Request.Form["Id"].ToString());
+                getData = _db.UserDetails.Find(userId);
+                currentUser = userId;
+                combinedData.RegisterUser = getData;
+                combinedData.ButtonSync = downloadState;
+                combinedData.User = user;
+
+            }
+            catch
+            {
+                TempData["Invalid Input"] = "User Id is not valid. Only numbers are accepted!!";
+                downloadState.Download = false;
+                return RedirectToAction("Edit");
+            }
+
+            if (getData == null)
+            {
+                TempData["Non Existing Id"] = "User Id not found in the database!!";
+                downloadState.Download = false;
+                return RedirectToAction("Edit");
+            }
+            downloadState.Download = true;
+            return View("Edit", combinedData);
         }
         public IActionResult Delete()
         {
