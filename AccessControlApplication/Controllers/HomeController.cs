@@ -29,11 +29,20 @@ namespace AccessControlApplication.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            CombinedClasses currentUser = new();
+            LoggedUser user = new();
+            currentUser.User = user;
+
+            return View(currentUser);
         }
         public IActionResult Register()
         {
             return RedirectToAction("Register", "Access");
+        }
+
+        public IActionResult DisplayUsers() 
+        {
+            return RedirectToAction("DisplayUsers", "Access");
         }
 
         public IActionResult LogIn()
