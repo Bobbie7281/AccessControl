@@ -12,7 +12,9 @@
     </div>
     <div class="row align-self-center pb-sm-3">
         <button type="submit"
-            class="btn btn-outline-secondary text-dark p-lg-3 form-control" style="" asp-controller="Home" asp-action="Register">Register</button>
+                class="btn btn-outline-secondary text-dark p-lg-3 form-control" style="" asp-controller="Home" asp-action="Register">
+            Register <i class="bi bi-pencil-square"></i>
+        </button>
     </div>
     @if (Model.User!.CurrentUser == 0)
     {
