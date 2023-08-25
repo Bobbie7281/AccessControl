@@ -1,6 +1,7 @@
 ﻿using AccessControlApplication.Data;
 using AccessControlApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace AccessControlApplication.Controllers
 {
@@ -91,8 +92,10 @@ namespace AccessControlApplication.Controllers
             {
                 if (name != "")
                 {
-                    var names = _db.UserDetails.Where(n => n.FullName == name).ToList();
-          
+                    var all = _db.UserDetails.ToList();
+                    //var names = _db.UserDetails.Where(n => n.FullName == name).ToList(); 
+                    var names = all.Where(n => Regex.IsMatch(input: n.FullName, pattern: name)).ToList();
+           
                     if (names != null)
                     {
                         foreach (var item in names)
