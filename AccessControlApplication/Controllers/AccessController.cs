@@ -62,19 +62,12 @@ namespace AccessControlApplication.Controllers
             {
                 allData = _db.UserDetails.ToList();
             }
-            else
+            else if(userId !=0 || idCard!="")
             {
                 if (userId != 0)
-                { 
+                {
                     users = _db.UserDetails.Find(userId);
                     userId = 0;
-                    category.GetAllData = true;
-                    category.Search = "";
-                }
-                else if (name != "")
-                {
-                    users = _db.UserDetails.FirstOrDefault(n => n.FullName == name);
-                    name = "";
                     category.GetAllData = true;
                     category.Search = "";
                 }
@@ -92,6 +85,28 @@ namespace AccessControlApplication.Controllers
                 else
                 {
                     TempData["Unsuccessfull"] = "No Data found in the database!!";
+                }
+            }
+            else
+            {
+                if (name != "")
+                {
+                    var names = _db.UserDetails.Where(n => n.FullName == name).ToList();
+          
+                    if (names != null)
+                    {
+                        foreach (var item in names)
+                        {
+                            allData.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        TempData["Unsuccessfull"] = "No Data found in the database!!";
+                    }
+                    name = "";
+                    category.GetAllData = true;
+                    category.Search = "";
                 }
             }
 
