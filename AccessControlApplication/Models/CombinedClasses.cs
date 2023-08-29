@@ -2,7 +2,7 @@
 {
     public class CombinedClasses
     {
-        private List<Register>? registeredUsers;
+        //private List<Register>? registeredUsers;
         public Register? RegisterUser { get; set; }
         public ButtonControls? ButtonSync { get; set; }
         public LoggedUser ? User { get; set; }

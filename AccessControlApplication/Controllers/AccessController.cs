@@ -8,12 +8,11 @@ namespace AccessControlApplication.Controllers
     public class AccessController : Controller
     {
         public ApplicationDbContext _db;
-        SearchByCategory category = new();
+        readonly SearchByCategory category = new();
 
-        public static int userId = 0;
-        public static string name = "";
-        public static string idCard = "";
-        public static string allInfo = "";
+        private static int userId = 0;
+        private static string name = "";
+        private static string idCard = "";
 
         static int currentUser;
         public AccessController(ApplicationDbContext db)
@@ -63,7 +62,7 @@ namespace AccessControlApplication.Controllers
             {
                 allData = _db.UserDetails.ToList();
             }
-            else if(userId !=0 || idCard!="")
+            else if (userId != 0 || idCard != "")
             {
                 if (userId != 0)
                 {
@@ -94,7 +93,7 @@ namespace AccessControlApplication.Controllers
                 {
                     var all = _db.UserDetails.ToList();
                     var names = all.Where(n => Regex.IsMatch(input: n.FullName, pattern: name)).ToList();
-           
+
                     if (names != null)
                     {
                         foreach (var item in names)
@@ -157,7 +156,7 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetInfoById()
         {
-            CombinedClasses? userData = new();
+
             category.GetAllData = false;
 
             try
@@ -183,7 +182,7 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetInfoByName()
         {
-            CombinedClasses? userData = new();
+
             category.GetAllData = false;
 
             try
@@ -205,7 +204,6 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetInfoByIdcard()
         {
-            CombinedClasses? userData = new();
             category.GetAllData = false;
 
             try
@@ -227,14 +225,10 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetAllInfo()
         {
-            CombinedClasses? userData = new();
             category.GetAllData = false;
-
-            allInfo = Request.Form["AllInfo"].ToString();
 
             return RedirectToAction("DisplayUsers", "Access");
         }
-        [HttpPost]
         public IActionResult Edit()
         {
             CombinedClasses details = new();
@@ -262,15 +256,23 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult EditInfo(CombinedClasses obj)
         {
-            CombinedClasses? combinedData = new();
 
-            Register newData = new();
+            Register newData = new()
+            {
+                Id = currentUser,
+                IdCardNum = obj.RegisterUser!.IdCardNum,
+                FullName = obj.RegisterUser!.FullName,
+                Address = obj.RegisterUser!.Address,
+                ContactNumber = obj.RegisterUser!.ContactNumber,
+                EmailAddress = obj.RegisterUser!.EmailAddress
+            };
+            /*Register newData = new();
             newData.Id = currentUser;
             newData.IdCardNum = obj.RegisterUser!.IdCardNum;
             newData.FullName = obj.RegisterUser!.FullName;
             newData.Address = obj.RegisterUser!.Address;
             newData.ContactNumber = obj.RegisterUser!.ContactNumber;
-            newData.EmailAddress = obj.RegisterUser!.EmailAddress;
+            newData.EmailAddress = obj.RegisterUser!.EmailAddress;*/
 
             try
             {
