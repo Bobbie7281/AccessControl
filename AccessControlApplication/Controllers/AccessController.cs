@@ -266,13 +266,6 @@ namespace AccessControlApplication.Controllers
                 ContactNumber = obj.RegisterUser!.ContactNumber,
                 EmailAddress = obj.RegisterUser!.EmailAddress
             };
-            /*Register newData = new();
-            newData.Id = currentUser;
-            newData.IdCardNum = obj.RegisterUser!.IdCardNum;
-            newData.FullName = obj.RegisterUser!.FullName;
-            newData.Address = obj.RegisterUser!.Address;
-            newData.ContactNumber = obj.RegisterUser!.ContactNumber;
-            newData.EmailAddress = obj.RegisterUser!.EmailAddress;*/
 
             try
             {
