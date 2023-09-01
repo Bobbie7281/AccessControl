@@ -47,39 +47,48 @@ else if (@Model.Category!.Search == "AllInfo")
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Full Name</th>
-            <th scope="col">Id Card Number</th>
-            <th scope="col">Address</th>
-            <th scope="col">Contact Number</th>
-            <th scope="col">Email Address</th>
+            <th scope="col"><div style="font-size:medium">Row</div></th>
+            <th scope="col"><div style="font-size:medium">Full Name</div></th>
+            <th scope="col"><div style="font-size:medium">User Id</div></th>
+            <th scope="col"><div style="font-size:medium">Id Card Number</div></th>
+            <th scope="col"><div style="font-size:medium">Address</div></th>
+            <th scope="col"><div style="font-size:medium">Contact Number</div></th>
+            <th scope="col"><div style="font-size:medium">Email Address</div></th>
         </tr>
     </thead>
     <tbody>
         @if (@Model.RegisteredUsers!.Count > 0)
         {
-            @for (int i = 0; i < Model.RegisteredUsers!.Count; i++)
+            @for (int i = 1; i <= Model.RegisteredUsers!.Count; i++)
             {
+                
                 <tr class="table-info">
+                    
                     <td>
-                        @Model.RegisteredUsers[i].Id
+                        <div style="font-size:larger"> @i </div>
+                    </td>
+                  
+                    <td>
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].FullName </div>
+                        
                     </td>
                     <td>
-                        @Model.RegisteredUsers[i].FullName
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].Id </div>
                     </td>
                     <td>
-                        @Model.RegisteredUsers[i].IdCardNum
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].IdCardNum </div>
                     </td>
                     <td>
-                        @Model.RegisteredUsers[i].Address
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].Address </div>
                     </td>
                     <td>
-                        @Model.RegisteredUsers[i].ContactNumber
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].ContactNumber </div>
                     </td>
                     <td>
-                        @Model.RegisteredUsers[i].EmailAddress
+                        <div style="font-size:larger">@Model.RegisteredUsers[i-1].EmailAddress </div>
                     </td>
                 </tr>
+               
             }
         }
     </tbody>

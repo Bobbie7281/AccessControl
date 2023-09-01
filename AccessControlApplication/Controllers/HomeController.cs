@@ -20,6 +20,7 @@ namespace AccessControlApplication.Controllers
             {
                 noUser = false;
                 user.CurrentUser = 0;
+                user.AdminRights = false;
             }
 
             obj.User = user;

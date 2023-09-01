@@ -34,5 +34,9 @@ namespace AccessControlApplication.Models
         [DisplayName("Email Address")]
         [MaxLength(30)]
         public string? EmailAddress { get; set; }
+
+        [Required]
+        [DisplayName("Administrator")]
+        public bool Administrator { get; set; }
     }
 }

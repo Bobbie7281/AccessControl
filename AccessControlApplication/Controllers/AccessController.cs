@@ -40,6 +40,7 @@ namespace AccessControlApplication.Controllers
             LoggedUser loggedUser = new();
 
             currentUser.User = loggedUser;
+
             return View(currentUser);
         }
         public IActionResult ManageDatabase()
@@ -160,7 +161,7 @@ namespace AccessControlApplication.Controllers
             category.GetAllData = false;
 
             try
-            {
+                {
                 if (Request.Form["Id"] == "")
                 {
                     category.GetAllData = true;
@@ -256,6 +257,8 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult EditInfo(CombinedClasses obj)
         {
+            string adminRights = Request.Form["optionsRadios"].ToString();
+            obj.RegisterUser!.Administrator = adminRights == "true" ? true : false; 
 
             Register newData = new()
             {
@@ -264,7 +267,8 @@ namespace AccessControlApplication.Controllers
                 FullName = obj.RegisterUser!.FullName,
                 Address = obj.RegisterUser!.Address,
                 ContactNumber = obj.RegisterUser!.ContactNumber,
-                EmailAddress = obj.RegisterUser!.EmailAddress
+                EmailAddress = obj.RegisterUser!.EmailAddress,
+                Administrator = obj.RegisterUser!.Administrator
             };
 
             try
@@ -362,8 +366,13 @@ namespace AccessControlApplication.Controllers
         {
             bool userExist = false;
             CombinedClasses currentUser = new();
+            //Register adminRights = new();
             LoggedUser loggedUser = new();
             currentUser.User = loggedUser;
+
+            string admin = Request.Form["optionsRadios"].ToString();
+            obj.RegisterUser!.Administrator = admin == "true" ? true : false;
+            //obj.RegisterUser!.Administrator = adminRights.Administrator;
 
             Register newUser = new()
             {
@@ -372,6 +381,7 @@ namespace AccessControlApplication.Controllers
                 Address = obj.RegisterUser!.Address,
                 ContactNumber = obj.RegisterUser!.ContactNumber,
                 EmailAddress = obj.RegisterUser!.EmailAddress,
+                Administrator = obj.RegisterUser!.Administrator,
             };
 
             if (ModelState.IsValid)
@@ -428,6 +438,7 @@ namespace AccessControlApplication.Controllers
                     {
                         login = true;
                         loggedUser.CurrentUser = obj.RegisterUser!.Id;
+                        loggedUser.AdminRights = user.Administrator;
 
                         obj.User = loggedUser;
                         TempData["Successfull Login"] = "Login Successfull";
