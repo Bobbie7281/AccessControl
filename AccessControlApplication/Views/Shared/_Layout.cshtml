@@ -29,7 +29,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (Model.User!.CurrentUser == 1)
+                        @if (Model.User!.AdminRights)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Access" asp-action="ManageDatabase">Manage Database</a>
