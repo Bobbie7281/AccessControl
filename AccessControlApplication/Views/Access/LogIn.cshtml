@@ -15,22 +15,22 @@
             <hr />
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="RegisterUser!.Id" class="p-0"></label>
-            <input asp-for="RegisterUser!.Id" class="form-control" />
+            <label asp-for="RegisterUser!.Id" class="p-0" style="font-size:x-large"></label>
+            <input asp-for="RegisterUser!.Id" class="form-control" style="font-size:large"  />
             <span asp-validation-for="RegisterUser!.Id" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="RegisterUser!.IdCardNum" class="p-0"></label>
-            <input asp-for="RegisterUser!.IdCardNum" class="form-control" />
+            <label asp-for="RegisterUser!.IdCardNum" class="p-0" style="font-size:x-large"></label>
+            <input asp-for="RegisterUser!.IdCardNum" class="form-control" style="font-size:large" />
             <span asp-validation-for="RegisterUser!.IdCardNum" class="text-danger"></span>
         </div>
        
         <div class="row">
             <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-primary form-control">LogIn</button>
+                <button type="submit" class="btn btn-primary form-control" style="font-size:large">LogIn</button>
             </div>
             <div class="col-6 col-md-3">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to Home</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary border form-control" style="font-size:large">Back to Home</a>
             </div>
         </div>
     </div>
