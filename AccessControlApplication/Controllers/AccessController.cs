@@ -370,6 +370,8 @@ namespace AccessControlApplication.Controllers
             currentUser.User = loggedUser;
 
             string admin = Request.Form["optionsRadios"].ToString();
+
+            admin = admin == "" ? "false" : admin;
             obj.RegisterUser!.Administrator = admin == "true" ? true : false;
           
             Register newUser = new()
