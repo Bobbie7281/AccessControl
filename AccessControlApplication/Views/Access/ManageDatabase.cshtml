@@ -1,5 +1,11 @@
 ﻿@model CombinedClasses
 
+@{
+    bool disableButtons = false;
+
+    disableButtons= !Model.User!.AdminRights ? true : false;
+}
+
 <partial name="_Notifications" />
 <form method="post">
     <div class="text-center">
@@ -10,10 +16,10 @@
         <button type="Submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="DisplayUsers"> Display all Users </button>
     </div>
     <div class="row align-self-center pb-sm-3">
-        <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Access" asp-action="Delete">Delete User</button>
+        <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Access" asp-action="Delete" disabled="@disableButtons">Delete User</button>
     </div>
     <div class="row align-self-center pb-sm-3">
-        <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Access" asp-action="Edit">Edit User Details</button>
+        <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Access" asp-action="Edit" disabled="@disableButtons">Edit User Details</button>
     </div>
 </form>
 
