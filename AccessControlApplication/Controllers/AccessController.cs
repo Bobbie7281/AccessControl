@@ -366,14 +366,12 @@ namespace AccessControlApplication.Controllers
         {
             bool userExist = false;
             CombinedClasses currentUser = new();
-            //Register adminRights = new();
             LoggedUser loggedUser = new();
             currentUser.User = loggedUser;
 
             string admin = Request.Form["optionsRadios"].ToString();
             obj.RegisterUser!.Administrator = admin == "true" ? true : false;
-            //obj.RegisterUser!.Administrator = adminRights.Administrator;
-
+          
             Register newUser = new()
             {
                 IdCardNum = obj.RegisterUser!.IdCardNum,
