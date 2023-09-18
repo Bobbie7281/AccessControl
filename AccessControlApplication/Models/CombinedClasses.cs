@@ -1,8 +1,8 @@
 ﻿namespace AccessControlApplication.Models
 {
-    public class CombinedClasses
+    public class CombinedClasses : ICombinedClasses
     {
-        //private List<Register>? registeredUsers;
+       
         public Register? RegisterUser { get; set; }
         public ButtonControls? ButtonSync { get; set; }
         public LoggedUser ? User { get; set; }
