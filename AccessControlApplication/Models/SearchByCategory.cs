@@ -1,17 +1,34 @@
 ﻿namespace AccessControlApplication.Models
 {
-    public class SearchByCategory
+    public class SearchByCategory : ISearchByCategory
     {
-        private static string? search = "";
+        private static string? searchType = "";
+        private static int searchIdValue = 0;
+        private static string searchNameValue = "";
+        private static string searchIdCardValue = "";
         
         private static bool? getAllData = true;
 
-        public string? Search
+        public string? SearchType
         {
-            set { search = value; }
-            get { return search; }
+            set { searchType = value; }
+            get { return searchType; }
         }
-        
+        public int SearchIdValue 
+        {
+            set { searchIdValue = value; }
+            get { return searchIdValue; }
+        }
+        public string SearchNameValue
+        {
+            set { searchNameValue = value; }
+            get { return searchNameValue; }
+        }
+        public string SearchIdCardValue
+        {
+            set { searchIdCardValue = value; }
+            get { return searchIdCardValue; }
+        }
         public bool? GetAllData
         {
             set {  getAllData = value; } 
