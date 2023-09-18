@@ -6,35 +6,33 @@ namespace AccessControlApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        static bool noUser = true;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ILogger<HomeController>? _logger;
+        readonly ICombinedClasses _combinedClasses;
+        readonly ILoggedUser _loggedUser;
+        public HomeController(ILogger<HomeController> logger, ICombinedClasses combinedClasses, ILoggedUser loggedUser)
         {
             _logger = logger;
+            _combinedClasses = combinedClasses;
+            _loggedUser = loggedUser;
         }
+
         public IActionResult Index()
         {
-            CombinedClasses obj = new();
-            LoggedUser user = new();
-            if (noUser)
+            _combinedClasses.User = (LoggedUser)_loggedUser;
+
+            if (!_loggedUser.UserCheck)
             {
-                noUser = false;
-                user.CurrentUser = 0;
-                user.AdminRights = false;
+                _loggedUser.CurrentUser = 0;
+                _loggedUser.AdminRights = false;
             }
-
-            obj.User = user;
-
-            return View(obj);
+            return View(_combinedClasses);
         }
 
         public IActionResult Privacy()
         {
-            CombinedClasses currentUser = new();
-            LoggedUser user = new();
-            currentUser.User = user;
+            _combinedClasses.User = (LoggedUser)_loggedUser;
 
-            return View(currentUser);
+            return View(_combinedClasses);
         }
         public IActionResult Register()
         {
@@ -52,7 +50,7 @@ namespace AccessControlApplication.Controllers
         }
         public IActionResult LogOff()
         {
-            noUser = true;
+            _loggedUser.UserCheck = false;
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
