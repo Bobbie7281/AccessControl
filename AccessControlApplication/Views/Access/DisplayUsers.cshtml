@@ -15,7 +15,7 @@
     </div>
     
 </div>
-@if (@Model.Category!.Search == "Id")
+@if (@Model.Category!.SearchType == "Id")
 {
     <form method="post" action="/Access/GetInfoById">
         <input type="text" id="User Input" name="Id" placeholder="Enter User Id"/>
@@ -23,21 +23,21 @@
         
     </form>
 }
-else if(@Model.Category!.Search =="Name")
+else if (@Model.Category!.SearchType == "Name")
 {
     <form method="post" action="/Access/GetInfoByName">
         <input type="text" id="User Input" name="Name" placeholder="Enter Full Name"/>
         <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
     </form>
 }
-else if (@Model.Category!.Search == "Idcard")
+else if (@Model.Category!.SearchType == "Idcard")
 {
     <form method="post" action="/Access/GetInfoByIdcard">
         <input type="text" id="User Input" name="Idcard"placeholder="Enter ID Card Number"/>
         <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i> Search</button>
     </form>
 }
-else if (@Model.Category!.Search == "AllInfo")
+else if (@Model.Category!.SearchType == "AllInfo")
 {
     <form method="post" action="/Access/GetAllInfo">
         <input type="text" id="User Input" name="AllInfo" />
