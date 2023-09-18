@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccessControlApplication.Models
 {
-    public class Register
+    public class Register : IRegister
     {
         [Key]
         [Required]

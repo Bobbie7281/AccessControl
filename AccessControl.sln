@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlApplication", "AccessControlApplication\AccessControlApplication.csproj", "{DB978935-BE48-4BC8-9E3D-878993303E8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlAppTesting", "AccessControlAppTesting\AccessControlAppTesting.csproj", "{D857C703-579D-421F-880D-0E82A72B0688}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DB978935-BE48-4BC8-9E3D-878993303E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB978935-BE48-4BC8-9E3D-878993303E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB978935-BE48-4BC8-9E3D-878993303E8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D857C703-579D-421F-880D-0E82A72B0688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D857C703-579D-421F-880D-0E82A72B0688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D857C703-579D-421F-880D-0E82A72B0688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D857C703-579D-421F-880D-0E82A72B0688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
