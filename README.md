@@ -9,7 +9,7 @@ LogIn Feature:
 To log into the system, the user Id and the id card number associated with it must be entered for the logIn to be successfull. If the logIn is successfull, the text of the button will change to Log off. Once a user is successfully logged in, the Manage Database option will appear in the navigation bar.
 
 Manage Database Feature:
-Under the manage database option one will find three options, which are Display All Users, Delete User & Edit User Details. These featurs will be all available if the user will have admin rights. On the other hand if the user doesn't have admin rights, the Delete button will be disabled and the Edit options will be available but admin rights will noe be accessable. 
+Under the manage database option one will find three options, which are Display All Users, Delete User & Edit User Details. These featurs will be all available if the user will have admin rights. On the other hand if the user doesn't have admin rights, the Delete button will be disabled and the Edit options will be available but admin rights will not be accessable. 
 
 Display All Users:
 This option will display all the users in the database. Apart from showing all the users, one can also filter by UserId, Name or Id Card Number. 
