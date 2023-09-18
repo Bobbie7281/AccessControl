@@ -1,4 +1,5 @@
 ﻿using AccessControlApplication.Data;
+using AccessControlApplication.Email;
 using AccessControlApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -8,80 +9,80 @@ namespace AccessControlApplication.Controllers
     public class AccessController : Controller
     {
         public ApplicationDbContext _db;
-        readonly SearchByCategory category = new();
+        readonly IEmailSender _emailSender;
+        readonly ICombinedClasses _combinedClasses;
+        readonly ILoggedUser _loggedUser;
+        readonly IRegister _register;
+        readonly ISearchByCategory _searchByCategory;
+        readonly IButtonControls _buttonControls;
 
-        private static int userId = 0;
-        private static string name = "";
-        private static string idCard = "";
-
-        static int currentUser;
-        public AccessController(ApplicationDbContext db)
+        public AccessController(ApplicationDbContext db, IEmailSender emailSender,
+            ICombinedClasses combinedClasses, ILoggedUser loggedUser, IRegister register,
+            ISearchByCategory searchByCategory, IButtonControls buttonControls)
         {
             _db = db;
+            _emailSender = emailSender;
+            _combinedClasses = combinedClasses;
+            _loggedUser = loggedUser;
+            _register = register;
+            _searchByCategory = searchByCategory;
+            _buttonControls = buttonControls;
         }
 
         public IActionResult LogIn()
         {
-            /*CombinedClasses obj = new();
-            LoggedUser user = new();
-            user.CurrentUser = 0;
+            var user = _loggedUser;
+            _combinedClasses.User = (LoggedUser?)user;
 
-            obj.User = user;*/
-            CombinedClasses currentUser = new();
-            LoggedUser loggedUser = new();
-
-            currentUser.User = loggedUser;
-
-            return View(currentUser);
+            return View(_combinedClasses);
         }
         public IActionResult Register()
         {
-            CombinedClasses currentUser = new();
-            LoggedUser loggedUser = new();
+            var user = _loggedUser;
+            _combinedClasses.User = (LoggedUser?)user;
 
-            currentUser.User = loggedUser;
-
-            return View(currentUser);
+            return View(_combinedClasses);
         }
         public IActionResult ManageDatabase()
         {
-            CombinedClasses obj = new();
-            LoggedUser user = new();
-            obj.User = user;
+            var user = _loggedUser;
+            _combinedClasses.User = (LoggedUser?)user;
 
-            return View(obj);
+            return View(_combinedClasses);
         }
 
         public IActionResult DisplayUsers()
         {
-            CombinedClasses obj = new();
-            Register? users = new();
             List<Register> allData = new();
-            LoggedUser user = new();
+            var resultData = _register;
+            var loggedUser = _loggedUser;
+            var searchUserId = _searchByCategory.SearchIdValue;
+            var searchUserIdCard = _searchByCategory.SearchIdCardValue;
+            var searchUserName = _searchByCategory.SearchNameValue;
 
-            if (category.GetAllData == true)
+            if (_searchByCategory.GetAllData == true)
             {
                 allData = _db.UserDetails.ToList();
             }
-            else if (userId != 0 || idCard != "")
+            else if (searchUserId != 0 || searchUserIdCard != "")
             {
-                if (userId != 0)
+                if (searchUserId != 0)
                 {
-                    users = _db.UserDetails.Find(userId);
-                    userId = 0;
-                    category.GetAllData = true;
-                    category.Search = "";
+                    resultData = _db.UserDetails.Find(searchUserId);
+                    _searchByCategory.SearchIdValue = 0;
+                    _searchByCategory.GetAllData = true;
+                    _searchByCategory.SearchType = "";
                 }
-                else if (idCard != "")
+                else if (searchUserIdCard != "")
                 {
-                    users = _db.UserDetails.FirstOrDefault(id => id.IdCardNum == idCard);
-                    idCard = "";
-                    category.GetAllData = true;
-                    category.Search = "";
+                    resultData = _db.UserDetails.FirstOrDefault(id => id.IdCardNum == searchUserIdCard);
+                    _searchByCategory.SearchIdCardValue = "";
+                    _searchByCategory.GetAllData = true;
+                    _searchByCategory.SearchType = "";
                 }
-                if (users != null)
+                if (resultData != null)
                 {
-                    allData.Add(users);
+                    allData.Add((Register)resultData);
                 }
                 else
                 {
@@ -90,10 +91,10 @@ namespace AccessControlApplication.Controllers
             }
             else
             {
-                if (name != "")
+                if (searchUserName != "")
                 {
                     var all = _db.UserDetails.ToList();
-                    var names = all.Where(n => Regex.IsMatch(input: n.FullName, pattern: name)).ToList();
+                    var names = all.Where(n => Regex.IsMatch(input: n.FullName!, pattern: searchUserName)).ToList();
 
                     if (names != null)
                     {
@@ -106,50 +107,43 @@ namespace AccessControlApplication.Controllers
                     {
                         TempData["Unsuccessfull"] = "No Data found in the database!!";
                     }
-                    name = "";
-                    category.GetAllData = true;
-                    category.Search = "";
+                    searchUserName = "";
+                    _searchByCategory.GetAllData = true;
+                    _searchByCategory.SearchType = "";
                 }
             }
+            _combinedClasses.Category = (SearchByCategory)_searchByCategory;
+            _combinedClasses.RegisteredUsers = allData;
+            _combinedClasses.User = (LoggedUser?)loggedUser;
 
-            obj.Category = category;
-            obj.RegisteredUsers = allData;
-            obj.User = user;
-            return View(obj);
+            return View(_combinedClasses);
         }
         public IActionResult SearchById()
         {
-            CombinedClasses setCategory = new();
-
-            category.Search = "Id";
-            setCategory.Category = category;
+            _searchByCategory.SearchType = "Id";
+            _combinedClasses.Category = (SearchByCategory)_searchByCategory;
 
             return RedirectToAction("DisplayUsers", "Access");
         }
         public IActionResult SearchByName()
         {
-            CombinedClasses setCategory = new();
+            _searchByCategory.SearchType = "Name";
 
-            category.Search = "Name";
-            setCategory.Category = category;
+            _combinedClasses.Category = (SearchByCategory)_searchByCategory;
 
             return RedirectToAction("DisplayUsers", "Access");
         }
         public IActionResult SearchByIdcard()
         {
-            CombinedClasses setCategory = new();
-
-            category.Search = "Idcard";
-            setCategory.Category = category;
+            _searchByCategory.SearchType = "Idcard";
+            _combinedClasses.Category = (SearchByCategory)_searchByCategory;
 
             return RedirectToAction("DisplayUsers", "Access");
         }
         public IActionResult GetAllData()
         {
-            CombinedClasses setCategory = new();
-
-            category.Search = "AllData";
-            setCategory.Category = category;
+            _searchByCategory.SearchType = "AllData";
+            _combinedClasses.Category = (SearchByCategory)_searchByCategory;
 
             return RedirectToAction("DisplayUsers", "Access");
         }
@@ -158,23 +152,23 @@ namespace AccessControlApplication.Controllers
         public IActionResult GetInfoById()
         {
 
-            category.GetAllData = false;
+            _searchByCategory.GetAllData = false;
 
             try
-                {
+            {
                 if (Request.Form["Id"] == "")
                 {
-                    category.GetAllData = true;
-                    TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid user Id.";
+                    _searchByCategory.GetAllData = true;
+                    TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid loggedUser Id.";
                 }
                 else
                 {
-                    userId = int.Parse(Request.Form["Id"].ToString());
+                    _searchByCategory.SearchIdValue = int.Parse(Request.Form["Id"].ToString());
                 }
             }
             catch
             {
-                category.GetAllData = true;
+                _searchByCategory.GetAllData = true;
                 TempData["Unsuccessfull"] = "\"" + Request.Form["Id"].ToString() + "\"" + " is not valid User Id. The User Id should contain only numbers.";
             }
 
@@ -184,18 +178,18 @@ namespace AccessControlApplication.Controllers
         public IActionResult GetInfoByName()
         {
 
-            category.GetAllData = false;
+            _searchByCategory.GetAllData = false;
 
             try
             {
                 if (Request.Form["Name"] == "")
                 {
-                    category.GetAllData = true;
+                    _searchByCategory.GetAllData = true;
                     TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid Name.";
                 }
                 else
                 {
-                    name = Request.Form["Name"].ToString();
+                    _searchByCategory.SearchNameValue = Request.Form["Name"].ToString();
                 }
             }
             catch { }
@@ -205,18 +199,18 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetInfoByIdcard()
         {
-            category.GetAllData = false;
+            _searchByCategory.GetAllData = false;
 
             try
             {
                 if (Request.Form["IdCard"] == "")
                 {
-                    category.GetAllData = true;
+                    _searchByCategory.GetAllData = true;
                     TempData["Unsuccessfull"] = "Search bar is empty. Please enter a valid Id Card number.";
                 }
                 else
                 {
-                    idCard = Request.Form["IdCard"].ToString();
+                    _searchByCategory.SearchIdCardValue = Request.Form["IdCard"].ToString();
                 }
             }
             catch { }
@@ -226,54 +220,44 @@ namespace AccessControlApplication.Controllers
         [HttpPost]
         public IActionResult GetAllInfo()
         {
-            category.GetAllData = false;
+            _searchByCategory.GetAllData = false;
 
             return RedirectToAction("DisplayUsers", "Access");
         }
         public IActionResult Edit()
         {
-            CombinedClasses details = new();
-            LoggedUser user = new();
-            Register initialInfo = new()
-            {
-                IdCardNum = "",
-                FullName = "",
-                Address = "",
-                ContactNumber = "",
-                EmailAddress = ""
-            };
-            ButtonControls initialSetUp = new()
-            {
-                Download = false
-            };
+            _register.Id = 0;
+            _register.IdCardNum = "";
+            _register.FullName = "";
+            _register.Address = "";
+            _register.ContactNumber = "";
+            _register.EmailAddress = "";
 
-            details.RegisterUser = initialInfo;
-            details.ButtonSync = initialSetUp;
-            details.User = user;
+            _buttonControls.Download = false;
+            _combinedClasses.RegisterUser = (Register)_register;
+            _combinedClasses.ButtonSync = (ButtonControls)_buttonControls;
+            _combinedClasses.User = (LoggedUser)_loggedUser;
 
-            return View(details);
+            return View(_combinedClasses);
         }
 
         [HttpPost]
         public IActionResult EditInfo(CombinedClasses obj)
         {
             string adminRights = Request.Form["optionsRadios"].ToString();
-            obj.RegisterUser!.Administrator = adminRights == "true" ? true : false; 
+            obj.RegisterUser!.Administrator = adminRights == "true" ? true : false;
 
-            Register newData = new()
-            {
-                Id = currentUser,
-                IdCardNum = obj.RegisterUser!.IdCardNum,
-                FullName = obj.RegisterUser!.FullName,
-                Address = obj.RegisterUser!.Address,
-                ContactNumber = obj.RegisterUser!.ContactNumber,
-                EmailAddress = obj.RegisterUser!.EmailAddress,
-                Administrator = obj.RegisterUser!.Administrator
-            };
+            _register.Id = obj.RegisterUser!.Id;
+            _register.IdCardNum = obj.RegisterUser!.IdCardNum;
+            _register.FullName = obj.RegisterUser!.FullName;
+            _register.Address = obj.RegisterUser!.Address;
+            _register.ContactNumber = obj.RegisterUser!.ContactNumber;
+            _register.EmailAddress = obj.RegisterUser!.EmailAddress;
+            _register.Administrator = obj.RegisterUser!.Administrator;
 
             try
             {
-                _db.UserDetails.Update(newData);
+                _db.UserDetails.Update((Register)_register);
                 _db.SaveChanges();
                 TempData["Edit Successfull"] = "Data edited and saved successfully!";
             }
@@ -288,44 +272,36 @@ namespace AccessControlApplication.Controllers
         public IActionResult Download()
         {
             int userId;
-            ButtonControls? downloadState = new();
-            CombinedClasses? combinedData = new();
-            LoggedUser? user = new();
-            Register? getData;
+            var getData = _register;
 
             try
             {
                 userId = int.Parse(Request.Form["Id"].ToString());
                 getData = _db.UserDetails.Find(userId);
-                currentUser = userId;
-                combinedData.RegisterUser = getData;
-                combinedData.ButtonSync = downloadState;
-                combinedData.User = user;
-
+                _combinedClasses.RegisterUser = getData as Register;
+                _combinedClasses.ButtonSync = (ButtonControls)_buttonControls;
+                _combinedClasses.User = (LoggedUser)_loggedUser;
             }
             catch
             {
                 TempData["Invalid Input"] = "User Id is not valid. Only numbers are accepted!!";
-                downloadState.Download = false;
+                _buttonControls.Download = false;
                 return RedirectToAction("Edit");
             }
 
             if (getData == null)
             {
                 TempData["Non Existing Id"] = "User Id not found in the database!!";
-                downloadState.Download = false;
+                _buttonControls.Download = false;
                 return RedirectToAction("Edit");
             }
-            downloadState.Download = true;
-            return View("Edit", combinedData);
+            _buttonControls.Download = true;
+            return View("Edit", _combinedClasses);
         }
         public IActionResult Delete()
         {
-            CombinedClasses currentUser = new();
-            LoggedUser loggedUser = new();
-
-            currentUser.User = loggedUser;
-            return View(currentUser);
+            _combinedClasses.User = (LoggedUser)_loggedUser;
+            return View(_combinedClasses);
         }
 
         [HttpPost, ActionName("Delete User")]
@@ -365,24 +341,22 @@ namespace AccessControlApplication.Controllers
         public IActionResult Register(CombinedClasses obj)
         {
             bool userExist = false;
-            CombinedClasses currentUser = new();
-            LoggedUser loggedUser = new();
-            currentUser.User = loggedUser;
+
+            _combinedClasses.User = (LoggedUser)_loggedUser;
 
             string admin = Request.Form["optionsRadios"].ToString();
 
             admin = admin == "" ? "false" : admin;
             obj.RegisterUser!.Administrator = admin == "true" ? true : false;
-          
-            Register newUser = new()
-            {
-                IdCardNum = obj.RegisterUser!.IdCardNum,
-                FullName = obj.RegisterUser!.FullName,
-                Address = obj.RegisterUser!.Address,
-                ContactNumber = obj.RegisterUser!.ContactNumber,
-                EmailAddress = obj.RegisterUser!.EmailAddress,
-                Administrator = obj.RegisterUser!.Administrator,
-            };
+
+            var newUser = _register;
+
+            newUser.IdCardNum = obj.RegisterUser.IdCardNum;
+            newUser.FullName = obj.RegisterUser.FullName;
+            newUser.Address = obj.RegisterUser.Address;
+            newUser.ContactNumber = obj.RegisterUser.ContactNumber;
+            newUser.EmailAddress = obj.RegisterUser.EmailAddress;
+            newUser.Administrator = obj.RegisterUser.Administrator;
 
             if (ModelState.IsValid)
             {
@@ -390,8 +364,15 @@ namespace AccessControlApplication.Controllers
 
                 if (usersList.Count == 0)
                 {
-                    _db.UserDetails.Add(newUser);
+                    _db.UserDetails.Add((Register)newUser);
                     _db.SaveChanges();
+
+                    var savedUser = _db.UserDetails.FirstOrDefault(idCard => idCard.IdCardNum == newUser.IdCardNum);
+                    string message = _emailSender.EmailMessage(savedUser!.FullName!, savedUser.Id.ToString(), savedUser.IdCardNum!);
+                    _emailSender.SendMail(newUser.EmailAddress!, message);
+
+                    ModelState.Clear();//Clears the input fields in the form.
+
                     TempData["Successfull"] = "Data Saved Successfully!!";
                 }
                 else
@@ -407,26 +388,31 @@ namespace AccessControlApplication.Controllers
                     }
                     if (!userExist)
                     {
-                        _db.UserDetails.Add(newUser);
+                        _db.UserDetails.Add((Register)newUser);
                         _db.SaveChanges();
+                        var savedUser = _db.UserDetails.FirstOrDefault(idCard => idCard.IdCardNum == newUser.IdCardNum);
+                        string message = _emailSender.EmailMessage(savedUser!.FullName!, savedUser.Id.ToString(), savedUser.IdCardNum!);
+                        _emailSender.SendMail(newUser.EmailAddress!, message);
+
+                        ModelState.Clear(); //Clears the input fields in the form.
+
                         TempData["Successfull"] = "Data saved successfully in the database";
                     }
                 }
             }
             else
             {
-                return View(currentUser);
+                return View(_combinedClasses);
             }
-            return View(currentUser);
+            return View(_combinedClasses);
         }
 
         [HttpPost]
         public IActionResult LogIn(CombinedClasses obj)
         {
             bool login = false;
-            CombinedClasses currentUser = new();
-            LoggedUser loggedUser = new();
-            currentUser.User = loggedUser;
+
+            _combinedClasses.User = (LoggedUser)_loggedUser;
 
             if (!ModelState.IsValid)
             {
@@ -437,11 +423,13 @@ namespace AccessControlApplication.Controllers
                     if (user.Id == obj.RegisterUser!.Id && user.IdCardNum == obj.RegisterUser!.IdCardNum)
                     {
                         login = true;
-                        loggedUser.CurrentUser = obj.RegisterUser!.Id;
-                        loggedUser.AdminRights = user.Administrator;
+                        _loggedUser.CurrentUser = obj.RegisterUser!.Id;
+                        _loggedUser.AdminRights = user.Administrator;
+                        _loggedUser.UserCheck = true;
 
-                        obj.User = loggedUser;
+                        obj.User = (LoggedUser)_loggedUser;
                         TempData["Successfull Login"] = "Login Successfull";
+
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -451,7 +439,7 @@ namespace AccessControlApplication.Controllers
                 }
             }
 
-            return View(currentUser);
+            return View(_combinedClasses);
         }
     }
 }
