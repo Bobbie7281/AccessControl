@@ -1,7 +1,19 @@
 ﻿@model CombinedClasses
 
 <!DOCTYPE html>
+
+@{
+    string displayName = "";
+
+    if(Model.User!.UserCheck)
+    {
+        displayName = Model.User.UserName;
+    }
+
+}
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,9 +44,13 @@
                         @if (Model.User!.CurrentUser!=0)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Access" asp-action="ManageDatabase">Manage Database</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Access" asp-action= "ManageDatabase">Manage Database</a>
+                            </li>
+                            <li class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                                <a class="nav-link text-light my-2 my-sm-0"> Logged in as @displayName</a>
                             </li>
                         }
+                        
                     </ul>
                 </div>
             </div>
