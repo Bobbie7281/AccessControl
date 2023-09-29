@@ -3,6 +3,7 @@
     public class LoggedUser : ILoggedUser
     {
         private static bool userCheck = false;
+        private static string userName = "";
         private static int currentUser = 0;
         private static bool adminRights = false;
 
@@ -10,6 +11,11 @@
         {
             set { userCheck = value; }
             get { return userCheck; }
+        }
+        public string UserName
+        {
+            set {  userName = value; }
+            get { return userName; }
         }
 
         public int CurrentUser
