@@ -7,7 +7,7 @@ namespace AccessControlApplication.Models
     {
         [Key]
         [Required]
-        [DisplayName("User Id")]
+        [DisplayName("User Id:")]
         public int Id { get; set; }
        
         [Required]
