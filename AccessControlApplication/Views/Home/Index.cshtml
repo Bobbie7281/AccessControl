@@ -3,35 +3,48 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<div class="card shadow border-0 mt-5">
+    <div class="card-header bg-primary bg-success text-white">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-White py-3" style="font-size:xx-large">Access Control App</h2>
+            </div>
+        </div>
+    </div>
 
-
+<div class="card-body bg-info p-4">
 <partial name="_Notifications" />
 <form method="post" action="/Home/Index">
-    <div class="text-center">
-        <h1 class="display-5 pb-sm-3">Access Control App</h1>
-    </div>
-    <div class="d-grid gap-4 pb-sm-3">
-        <button type="submit"
-                class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="Register">
-            Register <i class="bi bi-pencil-square"></i>
-        </button>
+    
+    <div class="card shadow border-0 mt-1 col-md-13">
+        <div class="mb-0 row p-3">
+            <div class="col-6 col-md">
+                <button type="submit" class="btn btn-lg btn-light text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="Register">
+            Register <i class="bi bi-pencil-square"></i></button>
+            </div>
+        </div>
     </div>
     @if (Model.User!.CurrentUser == 0)
     {
-        <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="LogIn">LogIn <i class="bi bi-door-open-fill"></i></button>
+        <div class="card shadow border-0 mt-3 col-md-13">
+            <div class="mb-0 row p-3">
+                <div class="col-6 col-md">
+                    <button type="submit" class="btn btn-lg btn-light text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="LogIn">LogIn <i class="bi bi-door-open-fill"></i></button>
+                </div>
+            </div>
         </div>
     }
     else
     {
-        <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-lg btn-outline-secondary text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="LogOff">Log Off <i class="bi bi-door-closed-fill"></i></button>
+        <div class="card shadow border-0 mt-3 col-md-13">
+            <div class="mb-0 row p-3">
+                <div class="col-6 col-md">
+                    <button type="submit" class="btn btn-lg btn-light text-dark form-control" style="font-size:xx-large" asp-controller="Home" asp-action="LogOff">Log Off <i class="bi bi-door-closed-fill"></i></button>
+                </div>
+            </div>
         </div>
     }
-    @* @if (Model.User!.CurrentUser == 1)
-    {
-        <div class="row align-self-center pb-sm-3">
-            <button type="submit" class="btn btn-outline-secondary text-dark p-lg-3 form-control" asp-controller="Access" asp-action="ManageDatabase">Manage Database</button>
-        </div>
-    }*@
+ 
 </form>
+</div>
+</div>
