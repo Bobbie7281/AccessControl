@@ -16,6 +16,7 @@ namespace AccessControlApplication.Controllers
             _loggedUser = loggedUser;
         }
 
+
         public IActionResult Index()
         {
             _combinedClasses.User = (LoggedUser)_loggedUser;
